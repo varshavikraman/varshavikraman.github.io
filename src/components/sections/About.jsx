@@ -99,7 +99,7 @@ const About = () => {
                 <ul className="list-disc list-inside text-gray-300 space-y-2">
                   <li>
                     <span className="text-green-500 font-bold py-1 px-3 text-md">B.Tech in Electronics and Communication Engineering </span> 
-                    - Government Engineering College, Kozhikode (2016-2020)
+                    - Government Engineering College, Kozhikode
                   </li>
                 </ul>
               </div>
@@ -108,7 +108,7 @@ const About = () => {
                 <ul className="list-disc list-inside text-gray-300 space-y-2">
                   <li>
                     <span className="text-green-500 font-bold py-1 px-3 text-md">PG Diploma in Blockchain Technology </span> 
-                    - Digital University Kerala (Present)
+                    - Digital University Kerala
                   </li>
                 </ul>
               </div>
