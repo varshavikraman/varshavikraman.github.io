@@ -1,34 +1,39 @@
-import React, { useState } from 'react'
-import "./index.css";
-import LoadingScreen from "./components/LoadingScreen";
-import Navbar from "./components/Navbar";
-import MobileMenu from "./components/MobileMenu";
-import Home from "./components/sections/Home";
-import About from "./components/sections/About";
-import Projects from "./components/sections/Projects";
-import Contact from "./components/sections/Contact";
+import { useEffect, useState } from 'react'
+import { MotionConfig, AnimatePresence } from 'motion/react'
+import LoadingScreen from './components/LoadingScreen'
+import Navbar from './components/Navbar'
+import { Hero, About, Skills, Projects, Experience, Contact } from './sections'
 
-const App = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  return (
-    <>
-      {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />}{" "}
-      <div
-        className={`min-h-screen transition-opacity duration-700 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        } bg-black text-gray-100`}
-      >
-        <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-        <Home />
-        <About />
-        <Projects />
-        <Contact />
-      </div>
-    </>
-  )
+const getInitialDark = () => {
+  try {
+    const saved = localStorage.getItem('theme')
+    if (saved) return saved === 'dark'
+  } catch { /* storage unavailable */ }
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
 }
 
-export default App
+export default function App() {
+  const [dark, setDark] = useState(getInitialDark)
+  const [loading, setLoading] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark)
+    try { localStorage.setItem('theme', dark ? 'dark' : 'light') } catch { /* ignore */ }
+  }, [dark])
+
+  return (
+    <MotionConfig reducedMotion="user">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-accent focus:text-bg focus:px-4 focus:py-2 focus:rounded">Skip to content</a>
+      <Navbar dark={dark} setDark={setDark} />
+      <main id="main">
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Contact />
+      </main>
+      <AnimatePresence>{loading && <LoadingScreen onDone={() => setLoading(false)} />}</AnimatePresence>
+    </MotionConfig>
+  )
+}

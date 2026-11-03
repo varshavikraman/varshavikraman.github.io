@@ -1,71 +1,15 @@
 @import "tailwindcss";
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Space Grotesk", sans-serif;
-  background: #0a0a0a;
-  color: #f3f4f6;
+@custom-variant dark (&:where(.dark, .dark *));
+@theme inline {
+  --color-bg: var(--bg); --color-fg: var(--fg); --color-muted: var(--muted);
+  --color-card: var(--card); --color-line: var(--line); --color-accent: var(--accent); --color-soft: var(--soft);
+  --font-sans: "Space Grotesk", system-ui, sans-serif;
 }
-
-
-@layer utilities {
-  @keyframes blink {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-  }
-
-  .animate-blink {
-    animation: blink 0.8s step-end infinite;
-  }
-
-  @keyframes loading {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(250%);
-    }
-  }
-
-  .animate-loading-bar {
-    animation: loading 0.8s ease infinite;
-  }
-
-  @keyframes logo {
-    0% {
-      opacity: 0;
-      transform: translateY(10px) scale(0.95);
-    }
-    60% {
-      opacity: 1;
-      transform: translateY(-3px) scale(1.05);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  .animate-logo {
-    animation: logo 0.8s ease-out forwards;
-  }
-}
-
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-  will-change: opacity, transform;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+:root { --bg:#fafaf7; --fg:#14201c; --muted:#51615b; --card:#ffffff; --line:#e1e7e3; --accent:#047857; --soft:#e8f5ef; color-scheme: light; }
+.dark { --bg:#0b100e; --fg:#eef3f0; --muted:#a3b2ab; --card:#121a17; --line:#22302a; --accent:#34d399; --soft:#10231b; color-scheme: dark; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { margin: 0; font-family: var(--font-sans); background: var(--bg); color: var(--fg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+@keyframes blink { 50% { opacity: 0; } }
+.caret { animation: blink 0.8s step-end infinite; }
